@@ -24,8 +24,6 @@ html
                 a(href='/contact') Contact
     block content
         if message 
-            div.alert.alert-#{message.type}= message.message
-        include login
-        include register
+            .alert(class=`alert ${message.type}`)= message.message
     footer
         p &copy; 2023 My Pug App
