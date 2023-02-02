@@ -25,6 +25,14 @@ app.use(bodyParser.json());
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
 passport.use(
   new LocalStrategy(function (username, password, done) {
     User.findOne({ username: username }, function (err, user) {
@@ -54,26 +62,29 @@ app.get("/login", function (req, res) {
 //user should be able to post to the login endpoint with a username and password and be given a jwt token using passportjs
 app.post(
   "/login",
-  body("username").custom((value) => {
-    body("password")
-      .isLength({ min: 5 })
-      .withMessage("Password must be at least 5 characters long"),
-      (req, res, next) => {
-        //validate the user input
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          req.flash("error", "Login failed! Please try again.");
-          res.redirect("/login");
-          return;
-        }
+  check("username").not().isEmpty().withMessage("Username is required"),
+  body("password")
+    .isLength({ min: 5 })
+    .withMessage("Password must be at least 5 characters long"),
+  (req, res, next) => {
+    //validate the user input
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash("error", "Login failed! Please try again.");
+      res.redirect("/login");
+      return;
+    }
 
-        next();
-      },
-      passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login",
-      });
-  })
+    next();
+  },
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+  }),
+  function (req, res) {
+    console.log("success");
+    req.flash("success", "Login successful!");
+    res.redirect("/");
+  }
 );
 
 app.get("/logout", function (req, res) {
@@ -82,7 +93,10 @@ app.get("/logout", function (req, res) {
 });
 
 app.get("/", (req, res) => {
-  res.render("index", { user: req.user, title: "My pug app" });
+  res.render("index", {
+    user: req?.session?.passport?.user,
+    title: "My pug app",
+  });
 });
 
 app.get("/register", (req, res) => {

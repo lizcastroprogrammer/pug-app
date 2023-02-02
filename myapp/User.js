@@ -7,6 +7,11 @@ var userSchema = new Schema({
   password: String,
 });
 
+userSchema.methods.validPassword = function (pwd) {
+  // EXAMPLE CODE!
+  return this.password === pwd;
+};
+
 var User = mongoose.model("User", userSchema);
 
 module.exports = User;
