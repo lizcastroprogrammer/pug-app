@@ -1,0 +1,23 @@
+//-extends layout only logged in user can see this page. will present a form to add recipes to the database.
+//-Recipes will have a title, ingredients, and instructions. 
+//-ingredients and instructions must use TinyMCE
+
+extends layout 
+
+block content
+    h1 Add a Recipe 
+    form(action='/addrecipe', method='post', enctype='multipart/form-data')
+        .form-group
+            label(for='title') Title:
+            input.form-control(type='text', id='title', name='title')
+        .form-group
+            label(for='ingredients') Ingredients:
+            textarea.form-control(type='text', id='ingredients', name='ingredients')
+        .form-group
+            label(for='instructions') Instructions:
+            textarea.form-control(type='text', id='instructions', name='instructions')
+        .form-group
+            label(for='recipeImage') Upload Image
+            input.form-control(type='file', id='recipeImage', name='recipeImage')
+        input.btn.btn-primary(type='submit', value='Add Recipe')
+

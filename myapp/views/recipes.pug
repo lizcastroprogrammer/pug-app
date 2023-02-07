@@ -1,0 +1,13 @@
+//- The template file
+extends layout
+
+block content
+  .container
+    .row
+      each recipe in recipes
+        .col-sm-4.mb-3
+          a(href='/recipe/' + recipe._id)
+            .card
+              img.card-img-top(src=recipe.image_url, alt=recipe.title)
+              .card-body
+                h5.card-title= recipe.title

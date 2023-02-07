@@ -1,14 +1,15 @@
 extends layout 
 
 block content
-    h2 Welcome to my app
-    if user 
-        p Welcome #{user.username}!
-        p
-            a(href='/logout') Logout
-    else
-        p
-            a(href='/login') Login
-        p
-            a(href='/register') Register
-    p This is an app used to tryout Pug
+    .container
+        h2 Welcome to my app
+        if user 
+            p Welcome #{user.username}!
+            p
+                a(href='/logout') Logout
+        else
+            p
+                a(href='/login') Login
+            p
+                a(href='/register') Register
+        p This is an app used to tryout Pug

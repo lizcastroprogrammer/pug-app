@@ -1,0 +1,22 @@
+extends layout
+
+
+block content
+    .container
+        h1 Edit Recipe
+        form(action=`/editrecipe/${recipe._id}`, method='post', enctype='multipart/form-data')
+            .form-group
+                label(for='title') Title
+                input.form-control(type='text', id='title', name='title', value=title, required)
+            .form-group
+                label(for='ingredients') Ingredients
+                textarea.form-control(id='ingredients', name='ingredients', value=ingredients)
+            .form-group
+                label(for='instructions') Instructions
+                textarea.form-control(id='instructions', name='instructions', value=instructions)
+            .form-group
+                label(for='recipeImage') Image
+                input.form-control(type='file', id='recipeImage', name='recipeImage', accept='image/*')
+            button.btn.btn-primary(type='submit') Update Recipe
+
+
